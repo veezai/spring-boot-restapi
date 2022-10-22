@@ -1,6 +1,7 @@
 package com.example.whatsapp.controllers;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,8 +49,11 @@ public class MainController {
 			+ "  }]\r\n"
 			+ "}";
 
-	String token = "";
-	String myToken = "";
+	@Value("${TOKEN}")
+	private String token;
+
+	@Value("${MYTOKEN}")
+	String myToken;
 
 	@GetMapping("/")
 	public String wc() {
