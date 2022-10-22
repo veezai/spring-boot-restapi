@@ -63,18 +63,20 @@ public class MainController {
 
 	//to verify the callback url from dashboard side - cloud api side
 	@GetMapping("/webhook")
-	public ResponseEntity<Object> verifyCallbackUrlFromDashboard(@RequestBody Map<String, String> qparams,
-																 HttpServletRequest request) {
+	public ResponseEntity<Object> verifyCallbackUrlFromDashboard(@RequestBody Map<String, String> qparams) {
 
 		String mode = qparams.get("hub.mode");
 		String challenge = qparams.get("hub.challenge");
 		String token = qparams.get("hub.verify_token");
 
-		System.out.println(request.getQueryString());
+//		System.out.println(request.getQueryString());
 		if(mode.equals("subscribe") && token.equals(myToken)) {
-			return ResponseEntity.ok(challenge);
+//			return ResponseEntity.ok(challenge);
+			System.out.println("challenge:"+ challenge);
+			return new ResponseEntity<Object>(challenge, HttpStatus.OK);
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
 			
 
