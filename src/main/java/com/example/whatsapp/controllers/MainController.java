@@ -63,7 +63,7 @@ public class MainController {
 
 	//to verify the callback url from dashboard side - cloud api side
 	@GetMapping("/webhook")
-	public ResponseEntity<Object> verifyCallbackUrlFromDashboard(@RequestBody(required = false) Map<String, String> qparams,
+	public ResponseEntity<Object> verifyCallbackUrlFromDashboard(@RequestBody Map<String, String> qparams,
 																 HttpServletRequest request) {
 
 		String mode = qparams.get("hub.mode");
