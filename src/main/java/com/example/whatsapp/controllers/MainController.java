@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.whatsapp.response.ClientDetails;
 import com.example.whatsapp.utils.ParseDynamicJson;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -62,13 +63,15 @@ public class MainController {
 
 	//to verify the callback url from dashboard side - cloud api side
 	@GetMapping("/webhook")
-	public ResponseEntity<String> verifyCallbackUrlFromDashboard(@RequestBody Map<String, String> verifyMap) {
+	public ResponseEntity<Object> verifyCallbackUrlFromDashboard(@RequestBody(required = false) Map<String, String> qparams,
+																 HttpServletRequest request) {
 
-		String mode = verifyMap.get("hub.mode");
-		String challenge = verifyMap.get("hub.challenge");
-		String token = verifyMap.get("hub.verify_token");
+		String mode = qparams.get("hub.mode");
+		String challenge = qparams.get("hub.challenge");
+		String token = qparams.get("hub.verify_token");
 
-		if(mode=="subscribe" && token==myToken) {
+		System.out.println(request.getQueryString());
+		if(mode.equals("subscribe") && token.equals(myToken)) {
 			return ResponseEntity.ok(challenge);
 		} else {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
