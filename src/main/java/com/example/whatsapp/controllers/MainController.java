@@ -4,10 +4,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.whatsapp.response.ClientDetails;
 import com.example.whatsapp.utils.ParseDynamicJson;
@@ -63,14 +60,16 @@ public class MainController {
 
 	//to verify the callback url from dashboard side - cloud api side
 	@GetMapping("/webhook")
-	public ResponseEntity<Object> verifyCallbackUrlFromDashboard(@RequestBody Map<String, String> qparams) {
+	public ResponseEntity<Object> verifyCallbackUrlFromDashboard(@RequestParam(name = "hub.mode") String mode,
+																 @RequestParam(name = "hub.challenge") String challenge,
+																 @RequestParam(name = "hub.verify_token") String verify_token) {
 
-		String mode = qparams.get("hub.mode");
-		String challenge = qparams.get("hub.challenge");
-		String token = qparams.get("hub.verify_token");
+//		String mode = qparams.get("hub.mode");
+//		String challenge = qparams.get("hub.challenge");
+//		String token = qparams.get("hub.verify_token");
 
 //		System.out.println(request.getQueryString());
-		if(mode.equals("subscribe") && token.equals(myToken)) {
+		if(mode.equals("subscribe") && verify_token.equals(myToken)) {
 //			return ResponseEntity.ok(challenge);
 			System.out.println("challenge:"+ challenge);
 			return new ResponseEntity<Object>(challenge, HttpStatus.OK);
