@@ -64,11 +64,7 @@ public class MainController {
 																 @RequestParam(name = "hub.challenge") String challenge,
 																 @RequestParam(name = "hub.verify_token") String verify_token) {
 
-//		String mode = qparams.get("hub.mode");
-//		String challenge = qparams.get("hub.challenge");
-//		String token = qparams.get("hub.verify_token");
 
-//		System.out.println(request.getQueryString());
 		if(mode.equals("subscribe") && verify_token.equals(myToken)) {
 //			return ResponseEntity.ok(challenge);
 			System.out.println("challenge:"+ challenge);
@@ -82,9 +78,9 @@ public class MainController {
 	}
 
 	@PostMapping("/webhook")
-	public void fetchResponseAndReply(@RequestBody Map jsonMap){
+	public void fetchResponseAndReply(@RequestBody Map qparams){
 
-		JSONObject inputJsonOBject = new JSONObject(jsonMap);
+		JSONObject inputJsonOBject = new JSONObject(qparams);
 		ParseDynamicJson.getKey(inputJsonOBject, "display_phone_number");
 		String display_phone_number = ParseDynamicJson.po;
 		ParseDynamicJson.getKey(inputJsonOBject, "phone_number_id");
@@ -93,6 +89,11 @@ public class MainController {
 		String name = ParseDynamicJson.po;
 		ParseDynamicJson.getKey(inputJsonOBject, "from");
 		String from = ParseDynamicJson.po;
+
+		System.out.println("display_phone_number:" + display_phone_number + ", " +
+				"phone_number_id:" + phone_number_id + ", " +
+				"name:" + name + ", " +
+				"from:" + from);
 
 //		ClientDetails clientDetails = new ClientDetails(v1,
 //				v2,
