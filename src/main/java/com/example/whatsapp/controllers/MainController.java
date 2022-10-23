@@ -2,12 +2,12 @@ package com.example.whatsapp.controllers;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.whatsapp.response.ClientDetails;
 import com.example.whatsapp.utils.ParseDynamicJson;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -81,19 +81,46 @@ public class MainController {
 	public void fetchResponseAndReply(@RequestBody Map qparams){
 
 		JSONObject inputJsonOBject = new JSONObject(qparams);
-		ParseDynamicJson.getKey(inputJsonOBject, "display_phone_number");
-		String display_phone_number = ParseDynamicJson.po;
+//		ParseDynamicJson.getKey(inputJsonOBject, "display_phone_number");
+//		String display_phone_number = ParseDynamicJson.po;
 		ParseDynamicJson.getKey(inputJsonOBject, "phone_number_id");
 		String phone_number_id = ParseDynamicJson.po;
-		ParseDynamicJson.getKey(inputJsonOBject, "name");
-		String name = ParseDynamicJson.po;
+//		ParseDynamicJson.getKey(inputJsonOBject, "name");
+//		String name = ParseDynamicJson.po;
 		ParseDynamicJson.getKey(inputJsonOBject, "from");
 		String from = ParseDynamicJson.po;
+		ParseDynamicJson.getKey(inputJsonOBject, "body");
+		String msg_body = ParseDynamicJson.po;
 
-		System.out.println("display_phone_number:" + display_phone_number + ", " +
-				"phone_number_id:" + phone_number_id + ", " +
-				"name:" + name + ", " +
-				"from:" + from);
+		System.out.println("phone_number_id:" + phone_number_id + ", " +
+				"from:" + from + ", " +
+				"msg_body:" + msg_body);
+
+
+		// create request body
+		JSONObject text = new JSONObject();
+		text.put("body", "Hi.. I'm Vijay...");
+		JSONObject request = new JSONObject();
+		request.put("messaging_product", "whatsapp");
+		request.put("to", from);
+		request.put("text", text);
+
+
+// set headers
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
+
+// send request and parse result
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "https://graph.facebook.com/v13.0/"+phone_number_id+"/messages?access_token="+token;
+		ResponseEntity<String> sendResponse = restTemplate
+				.exchange(url, HttpMethod.POST, entity, String.class);
+		if (sendResponse.getStatusCode() == HttpStatus.OK) {
+			JSONObject userJson = new JSONObject(sendResponse.getBody());
+		} else if (sendResponse.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+			// nono... bad credentials
+		}
 
 //		ClientDetails clientDetails = new ClientDetails(v1,
 //				v2,
