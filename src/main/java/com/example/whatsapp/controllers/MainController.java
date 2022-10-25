@@ -79,7 +79,7 @@ public class MainController {
 		HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
 
 // 		send request and parse result
-		/*RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate();
 		String url = "https://graph.facebook.com/v13.0/"+phone_number_id+"/messages?access_token="+token;
 		ResponseEntity<String> sendResponse = restTemplate
 				.exchange(url, HttpMethod.POST, entity, String.class);
@@ -88,7 +88,7 @@ public class MainController {
 			System.out.println(userJson.toString());
 		} else if (sendResponse.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 			// nono... bad credentials
-		}*/
+		}
 
 	}
 	
