@@ -61,7 +61,7 @@ public class MainController {
 		ParseDynamicJson.getKey(inputJsonOBject, "body");
 		String msg_body = ParseDynamicJson.po;
 
-		System.out.println(inputJsonOBject.toString());
+		System.out.println(inputJsonOBject);
 
 
 //		Create request body
