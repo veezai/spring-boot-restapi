@@ -1,15 +1,11 @@
-package com.example.whatsapp.controllers;
+package com.thryakshari.whatsapp.controllers;
 
+import com.thryakshari.whatsapp.utils.ParseDynamicJson;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.whatsapp.response.ClientDetails;
-import com.example.whatsapp.utils.ParseDynamicJson;
-import org.springframework.web.client.RestTemplate;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController

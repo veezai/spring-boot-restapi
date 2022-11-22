@@ -1,4 +1,4 @@
-package com.example.whatsapp.models;
+package com.thryakshari.whatsapp.models;
 
 import java.util.ArrayList;
 
